@@ -14,7 +14,7 @@ const FlashbarToggle = GObject.registerClass(
 class FlashbarToggle extends QuickSettings.QuickToggle {
     constructor(extensionObject) {
         super({
-            title: _('Flashbar Timer'),
+            title: _('Flashbar'),
             subtitle: _('Reminder'),
             iconName: 'alarm-symbolic',
             toggleMode: true,
