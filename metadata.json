@@ -1,0 +1,9 @@
+{
+    "uuid": "flashbar-timer@willi",
+    "name": "Flashbar Timer",
+    "description": "Flash the top bar or a panel indicator at configurable intervals as a quick reminder/alarm",
+    "version": 1,
+    "shell-version": ["45", "46", "47", "48", "49"],
+    "settings-schema": "org.gnome.shell.extensions.flashbar-timer",
+    "url": "https://github.com/willi/gnome-flashbar-timer"
+}

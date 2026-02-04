@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schemalist gettext-domain="flashbar-timer">
+  <schema id="org.gnome.shell.extensions.flashbar-timer"
+          path="/org/gnome/shell/extensions/flashbar-timer/">
+
+    <key name="timer-enabled" type="b">
+      <default>false</default>
+      <summary>Timer Enabled</summary>
+      <description>Whether the flash timer is currently active</description>
+    </key>
+
+    <key name="flash-mode" type="i">
+      <default>0</default>
+      <summary>Flash Mode</summary>
+      <description>0 = entire top bar, 1 = panel indicator only</description>
+    </key>
+
+    <key name="flash-interval" type="i">
+      <default>300</default>
+      <summary>Flash Interval</summary>
+      <description>Time between flashes in seconds (60-3600)</description>
+    </key>
+
+    <key name="flash-duration" type="i">
+      <default>500</default>
+      <summary>Flash Duration</summary>
+      <description>Duration of each flash in milliseconds (100-2000)</description>
+    </key>
+
+    <key name="flash-count" type="i">
+      <default>3</default>
+      <summary>Flash Count</summary>
+      <description>Number of flash cycles per trigger (1-10)</description>
+    </key>
+
+    <key name="flash-color" type="s">
+      <default>'rgba(255, 100, 100, 0.8)'</default>
+      <summary>Flash Color</summary>
+      <description>Color of the flash effect (CSS color value)</description>
+    </key>
+
+    <key name="show-indicator" type="b">
+      <default>true</default>
+      <summary>Show Panel Indicator</summary>
+      <description>Show an indicator icon in the top panel</description>
+    </key>
+
+  </schema>
+</schemalist>

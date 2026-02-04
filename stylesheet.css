@@ -1,0 +1,26 @@
+/* Flash effect for entire top bar - applied via CSS class */
+#panel.flashbar-flash {
+    background-color: rgba(255, 100, 100, 0.8) !important;
+    transition: background-color 100ms ease-in-out;
+}
+
+/* Panel indicator flash effect */
+.flashbar-indicator-flash {
+    background-color: rgba(255, 100, 100, 0.9);
+    border-radius: 4px;
+}
+
+/* Default indicator styling */
+.flashbar-indicator {
+    padding: 0 4px;
+}
+
+/* Indicator when timer is active */
+.flashbar-indicator-active {
+    color: #73d216;
+}
+
+/* Indicator when timer is inactive */
+.flashbar-indicator-inactive {
+    color: #888888;
+}
