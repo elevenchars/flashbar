@@ -1,9 +1,20 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 // Flashbar - Preferences
 
+import Gdk from 'gi://Gdk';
 import Gio from 'gi://Gio';
 import Gtk from 'gi://Gtk';
 import Adw from 'gi://Adw';
+
+function cssToRgba(cssColor) {
+    const rgba = new Gdk.RGBA();
+    rgba.parse(cssColor);
+    return rgba;
+}
+
+function rgbaToCss(rgba) {
+    return `rgba(${Math.round(rgba.red * 255)}, ${Math.round(rgba.green * 255)}, ${Math.round(rgba.blue * 255)}, ${rgba.alpha})`;
+}
 
 import {ExtensionPreferences, gettext as _} from 'resource:///org/gnome/Shell/Extensions/js/extensions/prefs.js';
 
@@ -106,23 +117,64 @@ export default class FlashbarPreferences extends ExtensionPreferences {
         appearanceGroup.add(indicatorRow);
         settings.bind('show-indicator', indicatorRow, 'active', Gio.SettingsBindFlags.DEFAULT);
 
-        const colorRow = new Adw.EntryRow({
-            title: _('Flash Color'),
-            text: settings.get_string('flash-color'),
+        const colorDialog = new Gtk.ColorDialog({
+            with_alpha: true,
         });
+
+        const colorButton = new Gtk.ColorDialogButton({
+            dialog: colorDialog,
+            rgba: cssToRgba(settings.get_string('flash-color')),
+            valign: Gtk.Align.CENTER,
+        });
+
+        const colorRow = new Adw.ActionRow({
+            title: _('Flash Color'),
+            subtitle: _('Color of the flash effect'),
+        });
+        colorRow.add_suffix(colorButton);
+        colorRow.set_activatable_widget(colorButton);
         appearanceGroup.add(colorRow);
 
-        colorRow.connect('changed', () => {
-            const text = colorRow.text;
-            if (text.match(/^(#[0-9A-Fa-f]{3,8}|rgba?\([^)]+\))$/)) {
-                settings.set_string('flash-color', text);
+        const initialRgba = cssToRgba(settings.get_string('flash-color'));
+
+        const opacityRow = new Adw.SpinRow({
+            title: _('Flash Opacity'),
+            subtitle: _('Transparency of the flash effect (0-100%)'),
+            adjustment: new Gtk.Adjustment({
+                lower: 0,
+                upper: 100,
+                step_increment: 5,
+                page_increment: 10,
+                value: Math.round(initialRgba.alpha * 100),
+            }),
+        });
+        appearanceGroup.add(opacityRow);
+
+        let updatingFromOpacity = false;
+        let updatingFromColor = false;
+
+        opacityRow.connect('notify::value', () => {
+            if (updatingFromColor) return;
+            updatingFromOpacity = true;
+            const rgba = colorButton.rgba.copy();
+            rgba.alpha = opacityRow.value / 100;
+            colorButton.rgba = rgba;
+            updatingFromOpacity = false;
+        });
+
+        colorButton.connect('notify::rgba', () => {
+            settings.set_string('flash-color', rgbaToCss(colorButton.rgba));
+            if (!updatingFromOpacity) {
+                updatingFromColor = true;
+                opacityRow.adjustment.value = Math.round(colorButton.rgba.alpha * 100);
+                updatingFromColor = false;
             }
         });
 
         settings.connect('changed::flash-color', () => {
-            const newColor = settings.get_string('flash-color');
-            if (colorRow.text !== newColor) {
-                colorRow.text = newColor;
+            const newRgba = cssToRgba(settings.get_string('flash-color'));
+            if (!colorButton.rgba.equal(newRgba)) {
+                colorButton.rgba = newRgba;
             }
         });
     }

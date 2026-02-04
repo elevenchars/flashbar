@@ -73,7 +73,7 @@ class FlashbarIndicator extends QuickSettings.SystemIndicator {
         }
     }
 
-    flashIndicator(duration, count) {
+    flashIndicator(duration, count, flashColor) {
         this.stopIndicatorFlash();
 
         let flashNum = 0;
@@ -81,15 +81,15 @@ class FlashbarIndicator extends QuickSettings.SystemIndicator {
 
         const doFlash = () => {
             if (flashNum >= count * 2) {
-                this._indicator.remove_style_class_name('flashbar-indicator-flash');
+                this._indicator.set_style(null);
                 this._flashSourceId = null;
                 return GLib.SOURCE_REMOVE;
             }
 
             if (flashNum % 2 === 0) {
-                this._indicator.add_style_class_name('flashbar-indicator-flash');
+                this._indicator.set_style(`background-color: ${flashColor}; border-radius: 4px;`);
             } else {
-                this._indicator.remove_style_class_name('flashbar-indicator-flash');
+                this._indicator.set_style(null);
             }
             flashNum++;
             return GLib.SOURCE_CONTINUE;
@@ -107,7 +107,7 @@ class FlashbarIndicator extends QuickSettings.SystemIndicator {
             GLib.Source.remove(this._flashSourceId);
             this._flashSourceId = null;
         }
-        this._indicator.remove_style_class_name('flashbar-indicator-flash');
+        this._indicator.set_style(null);
     }
 
     destroy() {
@@ -161,7 +161,7 @@ export default class FlashbarExtension extends Extension {
             this._indicator = null;
         }
 
-        this._removePanelFlashClass();
+        this._clearPanelFlashStyle();
 
         this._settings = null;
     }
@@ -207,15 +207,16 @@ export default class FlashbarExtension extends Extension {
         const flashMode = this._settings.get_int('flash-mode');
         const duration = this._settings.get_int('flash-duration');
         const count = this._settings.get_int('flash-count');
+        const flashColor = this._settings.get_string('flash-color');
 
         if (flashMode === 0) {
-            this._flashTopBar(duration, count);
+            this._flashTopBar(duration, count, flashColor);
         } else {
-            this._indicator.flashIndicator(duration, count);
+            this._indicator.flashIndicator(duration, count, flashColor);
         }
     }
 
-    _flashTopBar(duration, count) {
+    _flashTopBar(duration, count, flashColor) {
         this._stopFlash();
 
         const panel = Main.panel;
@@ -224,15 +225,15 @@ export default class FlashbarExtension extends Extension {
 
         const doFlash = () => {
             if (flashNum >= count * 2) {
-                this._removePanelFlashClass();
+                this._clearPanelFlashStyle();
                 this._flashSourceId = null;
                 return GLib.SOURCE_REMOVE;
             }
 
             if (flashNum % 2 === 0) {
-                panel.add_style_class_name('flashbar-flash');
+                panel.set_style(`background-color: ${flashColor} !important;`);
             } else {
-                panel.remove_style_class_name('flashbar-flash');
+                panel.set_style(null);
             }
             flashNum++;
             return GLib.SOURCE_CONTINUE;
@@ -250,15 +251,15 @@ export default class FlashbarExtension extends Extension {
             GLib.Source.remove(this._flashSourceId);
             this._flashSourceId = null;
         }
-        this._removePanelFlashClass();
+        this._clearPanelFlashStyle();
         if (this._indicator) {
             this._indicator.stopIndicatorFlash();
         }
     }
 
-    _removePanelFlashClass() {
+    _clearPanelFlashStyle() {
         if (Main.panel) {
-            Main.panel.remove_style_class_name('flashbar-flash');
+            Main.panel.set_style(null);
         }
     }
 }
