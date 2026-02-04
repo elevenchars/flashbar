@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<schemalist gettext-domain="flashbar-timer">
-  <schema id="org.gnome.shell.extensions.flashbar-timer"
-          path="/org/gnome/shell/extensions/flashbar-timer/">
+<schemalist gettext-domain="flashbar">
+  <schema id="org.gnome.shell.extensions.flashbar"
+          path="/org/gnome/shell/extensions/flashbar/">
 
     <key name="timer-enabled" type="b">
       <default>false</default>

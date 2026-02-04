@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
-// Flashbar Timer - GNOME Shell Extension
+// Flashbar - GNOME Shell Extension
 
 import GLib from 'gi://GLib';
 import GObject from 'gi://GObject';
@@ -121,7 +121,7 @@ class FlashbarIndicator extends QuickSettings.SystemIndicator {
     }
 });
 
-export default class FlashbarTimerExtension extends Extension {
+export default class FlashbarExtension extends Extension {
     enable() {
         this._settings = this.getSettings();
 

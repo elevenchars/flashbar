@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
-// Flashbar Timer - Preferences
+// Flashbar - Preferences
 
 import Gio from 'gi://Gio';
 import Gtk from 'gi://Gtk';
@@ -7,7 +7,7 @@ import Adw from 'gi://Adw';
 
 import {ExtensionPreferences, gettext as _} from 'resource:///org/gnome/Shell/Extensions/js/extensions/prefs.js';
 
-export default class FlashbarTimerPreferences extends ExtensionPreferences {
+export default class FlashbarPreferences extends ExtensionPreferences {
     fillPreferencesWindow(window) {
         const settings = this.getSettings();
 

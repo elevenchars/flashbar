@@ -4,13 +4,13 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-GNOME Shell extension (UUID: `flashbar-timer@willi`) that flashes the top bar or a panel indicator at configurable intervals as a visual reminder. Supports GNOME Shell versions 45-48.
+GNOME Shell extension (UUID: `flashbar@elevenchars.github.io`) that flashes the top bar or a panel indicator at configurable intervals as a visual reminder. Supports GNOME Shell versions 45-48.
 
 ## Installation & Development
 
 ```bash
 # Install to GNOME extensions directory
-cp -r . ~/.local/share/gnome-shell/extensions/flashbar-timer@willi/
+cp -r . ~/.local/share/gnome-shell/extensions/flashbar@elevenchars.github.io/
 
 # Recompile schemas after modifying gschema.xml
 glib-compile-schemas schemas/
@@ -26,7 +26,7 @@ journalctl -f -o cat /usr/bin/gnome-shell
 ## Architecture
 
 - **extension.js** - Main extension with three classes:
-  - `FlashbarTimerExtension` - Lifecycle management (enable/disable), timer loop
+  - `FlashbarExtension` - Lifecycle management (enable/disable), timer loop
   - `FlashbarIndicator` - System indicator in quick settings panel
   - `FlashbarToggle` - Quick settings toggle button
 
