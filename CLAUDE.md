@@ -15,13 +15,15 @@ cp -r . ~/.local/share/gnome-shell/extensions/flashbar@elevenchars.github.io/
 # Recompile schemas after modifying gschema.xml
 glib-compile-schemas schemas/
 
-# Restart GNOME Shell to reload extension
-# X11: Alt+F2, type 'r', Enter
-# Wayland: Log out and back in
-
 # View extension logs
 journalctl -f -o cat /usr/bin/gnome-shell
 ```
+
+**Important:** After copying extension files, you must restart GNOME Shell for changes to take effect:
+- **X11:** Alt+F2, type 'r', Enter
+- **Wayland:** Log out and back in (no runtime restart available)
+
+Note: Preferences window changes (prefs.js) may work without a full restart, but extension.js changes always require restarting GNOME Shell.
 
 ## Architecture
 
@@ -42,6 +44,10 @@ journalctl -f -o cat /usr/bin/gnome-shell
 - Flash effect cycles via recursive `GLib.timeout_add()` calls
 - Settings changes auto-apply via `settings.connect('changed::key-name', callback)`
 - Two flash modes: 0 = top bar panel, 1 = indicator only
+
+## Commit Conventions
+
+- Always commit CLAUDE.md changes separately from code changes
 
 ## Documentation Resources
 
